@@ -246,6 +246,8 @@ public class ImageCropperDelegate implements PluginRegistry.ActivityResultListen
                     CropImageView.SOURCE_IMAGE_ASPECT_RATIO, 1.0f);
         } else if ("3x2".equals(name)) {
             return new AspectRatio(null, 3.0f, 2.0f);
+        } else if ("3x4".equals(name)) {
+            return new AspectRatio(null, 3.0f, 4.0f);
         } else if ("4x3".equals(name)) {
             return new AspectRatio(null, 4.0f, 3.0f);
         } else if ("5x3".equals(name)) {

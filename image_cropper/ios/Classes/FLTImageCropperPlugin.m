@@ -1,5 +1,5 @@
 #import "FLTImageCropperPlugin.h"
-#import <TOCropViewController/TOCropViewController.h>
+#import <FanbookTOCrop/TOCropViewController.h>
 #import <UIKit/UIKit.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
@@ -72,16 +72,19 @@
           }
       }
       cropViewController.allowedAspectRatios = allowedAspectRatios;
-      
+
+      [self setupUiCustomizedOptions:call.arguments forViewController:cropViewController];
+
       if (ratioX != (id)[NSNull null] && ratioY != (id)[NSNull null]) {
           cropViewController.customAspectRatio = CGSizeMake([ratioX floatValue], [ratioY floatValue]);
           cropViewController.resetAspectRatioEnabled = NO;
-          cropViewController.aspectRatioPickerButtonHidden = YES;
+          cropViewController.aspectRatioPickerButtonHidden = NO;
           cropViewController.aspectRatioLockDimensionSwapEnabled = YES;
           cropViewController.aspectRatioLockEnabled = YES;
+      }else{
+          cropViewController.aspectRatioPickerButtonHidden = NO;
       }
-      
-      [self setupUiCustomizedOptions:call.arguments forViewController:cropViewController];
+
 
       [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:cropViewController animated:YES completion:nil];
   } else {
@@ -166,6 +169,8 @@
         return TOCropViewControllerAspectRatioPresetOriginal;
     } else if ([@"3x2" isEqualToString:name]) {
         return TOCropViewControllerAspectRatioPreset3x2;
+    } else if ([@"3x4" isEqualToString:name]) {
+        return TOCropViewControllerAspectRatioPreset3x4;
     } else if ([@"4x3" isEqualToString:name]) {
         return TOCropViewControllerAspectRatioPreset4x3;
     } else if ([@"5x3" isEqualToString:name]) {
