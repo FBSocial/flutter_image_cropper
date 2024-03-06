@@ -72,18 +72,32 @@
           }
       }
       cropViewController.allowedAspectRatios = allowedAspectRatios;
-
+      
       if (ratioX != (id)[NSNull null] && ratioY != (id)[NSNull null]) {
           cropViewController.customAspectRatio = CGSizeMake([ratioX floatValue], [ratioY floatValue]);
           cropViewController.resetAspectRatioEnabled = NO;
-          cropViewController.aspectRatioPickerButtonHidden = NO;
-          cropViewController.aspectRatioLockDimensionSwapEnabled = YES;
+          cropViewController.aspectRatioPickerButtonHidden = YES;
+          cropViewController.aspectRatioLockDimensionSwapEnabled = NO;
           cropViewController.aspectRatioLockEnabled = YES;
       }
+      
       [self setupUiCustomizedOptions:call.arguments forViewController:cropViewController];
 
+      UIWindow *window = [UIApplication sharedApplication].delegate.window;
+      if (!window && @available(iOS 13.0, *)) {
+          for (UIWindowScene* scene in [UIApplication sharedApplication].connectedScenes) {
+              if (scene.activationState == UISceneActivationStateForegroundActive) {
+                  for (UIWindow *w in scene.windows) {
+                      if (w.isKeyWindow) {
+                          window = w;
+                          break;
+                      }
+                  }
+              }
+          }
+      }
 
-      [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:cropViewController animated:YES completion:nil];
+      [window.rootViewController presentViewController:cropViewController animated:YES completion:nil];
   } else {
       result(FlutterMethodNotImplemented);
   }
